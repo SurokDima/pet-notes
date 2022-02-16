@@ -47,12 +47,16 @@ export default function NoteItem({
   const handleDrag = async (event: IEvent, info: PanInfo) => {
     const offset = info.offset.x;
     const velocity = info.velocity.x;
-    
-    if ((offset < -100 || velocity < - 250)) {
+
+    if (offset < -100 || velocity < -250) {
       await controls.start({ x: '-100%', transition: { duration: 0.2 } });
       removeItem();
     } else {
-      controls.start({ x: 0, opacity: 1, transition: { duration: 0.5 } });
+      controls.start({
+        x: 0,
+        opacity: 1,
+        transition: { type: 'spring', stiffness: 600, damping: 30 },
+      });
     }
   };
 
