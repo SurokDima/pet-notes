@@ -9,6 +9,8 @@ declare module 'styled-components' {
     danger: string;
     success: string;
 
+    stub: string;
+
     notesColors: {
       red: string;
       green: string;
