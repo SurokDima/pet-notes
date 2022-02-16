@@ -2,8 +2,10 @@ import { motion, useMotionValue } from 'framer-motion';
 import { nanoid } from 'nanoid';
 import { useState } from 'react';
 import styled from 'styled-components';
+import AddButton from '../components/Buttons/AddButton';
 import InfoButton from '../components/Buttons/InfoButton';
 import SearchButton from '../components/Buttons/SearchButton';
+import Modal from '../components/Modal';
 import NoteItem, { IItem } from '../components/Notes/NoteItem';
 import NotesTrack from '../components/Notes/NotesTrack';
 
@@ -18,6 +20,13 @@ const Body = styled.div`
   width: 100%;
   height: 100%;
 `;
+
+const Add = styled(AddButton)`
+  position: fixed;
+  bottom: 25px;
+  right: 25px;
+  z-index: 500;
+`
 
 const initialItems: IItem[] = [
   { id: nanoid(), text: 'My text is real and i wrote itsdfsdfsdfsdfsdfsdfsdfsdf sdfsd fsd', color: 'red' },
@@ -56,6 +65,8 @@ export default function Home() {
       <Body>
         <NotesTrack setItems={setItems} removeItem={removeItem}>{items}</NotesTrack>
       </Body>
+      <Add />
+      <Modal />
     </>
   );
 }
