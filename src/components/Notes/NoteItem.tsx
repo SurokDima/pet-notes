@@ -43,18 +43,13 @@ export default function NoteItem({
   const dragControls = useDragControls();
 
   const controls = useAnimation();
-  const [isDragged, setIsDragged] = useState(false);
 
   const handleDrag = async (event: IEvent, info: PanInfo) => {
     const offset = info.offset.x;
     const velocity = info.velocity.x;
-
-    if (offset < -100 || velocity < -250 && !isDragged) {
-      console.log('sd 1');
-
+    
+    if ((offset < -100 || velocity < - 250)) {
       await controls.start({ x: '-100%', transition: { duration: 0.2 } });
-      console.log('sd');
-
       removeItem();
     } else {
       controls.start({ x: 0, opacity: 1, transition: { duration: 0.5 } });
@@ -66,8 +61,6 @@ export default function NoteItem({
       dragListener={false}
       dragControls={dragControls}
       dragDirectionLock
-      onDragEnd={() => setIsDragged(false)}
-      onDragStart={() => setIsDragged(true)}
       value={children}
       id={children.id}
       whileTap={{ scale: 1.03 }}
@@ -82,7 +75,9 @@ export default function NoteItem({
     >
       <NoteContainer
         drag={'x'}
+        dragListener={false}
         dragDirectionLock
+        dragControls={dragControls}
         animate={controls}
         onDragEnd={handleDrag}
         color={children.color}
