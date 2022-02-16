@@ -1,7 +1,7 @@
 import React from 'react';
 import logo from './logo.svg';
 import './App.css';
-import styled, { ThemeProvider } from 'styled-components';
+import styled, { createGlobalStyle, ThemeProvider } from 'styled-components';
 import { dark } from './themes/themes';
 import { Route, Routes } from 'react-router-dom';
 import Home from './pages/Home';
@@ -28,9 +28,16 @@ const Container = styled.div`
   margin: 0 auto;
 `;
 
+const Global = createGlobalStyle`
+  html {
+    background: ${props => props.theme.primary}
+  }
+`
+
 function App() {
   return (
     <ThemeProvider theme={dark}>
+      <Global />
       <Background>
         <Container>
           <Layout>
