@@ -31,8 +31,7 @@ const NoteTitle = styled.div`
   color: ${props => props.theme.primary};
   font-family: 'Nunito', sans-serif;
   margin-right: 20px;
-  overflow: hidden;
-  height: 20px;
+  line-height: 1.5em; 
 `;
 
 export default function NoteItem({
