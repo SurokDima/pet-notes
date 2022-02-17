@@ -11,6 +11,10 @@ declare module 'styled-components' {
 
     stub: string;
 
+    modalIcons: string;
+    modalText: string;
+    placeholder: string;
+
     notesColors: {
       red: string;
       green: string;

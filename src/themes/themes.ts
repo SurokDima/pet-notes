@@ -1,4 +1,6 @@
-export const dark = {
+import { DefaultTheme } from 'styled-components';
+
+export const dark: DefaultTheme = {
   primary: '#252525',
   secondary: '#3B3B3B',
   white: '#fff',
@@ -7,6 +9,9 @@ export const dark = {
   success: '#30BE71',
 
   stub: 'rgba(196, 196, 196, 0.2)',
+  modalIcons: '#606060',
+  modalText: '#CFCFCF',
+  placeholder: '#9A9A9A',
 
   notesColors: {
     red: '#FF9E9E',
