@@ -10,6 +10,7 @@ import styled, { DefaultTheme } from 'styled-components';
 import { faGrip } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { IEvent } from '../../types/types';
+import { Link } from 'react-router-dom';
 
 const NoteContainer = styled(motion.div)<INoteContainerProps>`
   background: ${props => props.theme.notesColors[props.color || 'yellow']};
@@ -85,23 +86,25 @@ export default function NoteItem({
           transition: { duration: 0.2 },
         }}
       >
-        <NoteContainer
-          drag={'x'}
-          dragListener={false}
-          dragDirectionLock
-          dragControls={dragControls}
-          animate={controls}
-          onDragEnd={handleDrag}
-          color={children.color}
-        >
-          <NoteTitle>{children.text}</NoteTitle>
-          <motion.div
-            style={{ touchAction: 'none' }}
-            onPointerDown={e => dragControls.start(e)}
+        <Link to={`/note/${children.id}`} style={{textDecoration: 'none'}}>
+          <NoteContainer
+            drag={'x'}
+            dragListener={false}
+            dragDirectionLock
+            dragControls={dragControls}
+            animate={controls}
+            onDragEnd={handleDrag}
+            color={children.color}
           >
-            <FontAwesomeIcon icon={faGrip} />
-          </motion.div>
-        </NoteContainer>
+            <NoteTitle>{children.text}</NoteTitle>
+            <motion.div
+              style={{ touchAction: 'none' }}
+              onPointerDown={e => dragControls.start(e)}
+            >
+              <FontAwesomeIcon icon={faGrip} />
+            </motion.div>
+          </NoteContainer>
+        </Link>
       </motion.div>
     </Reorder.Item>
   );
