@@ -1,7 +1,7 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { AnimatePresence, motion, useMotionValue } from 'framer-motion';
 import { nanoid } from 'nanoid';
-import { useState } from 'react';
+import { RefObject, SyntheticEvent, useState } from 'react';
 import styled from 'styled-components';
 import AddButton from '../components/Buttons/AddButton';
 import InfoButton from '../components/Buttons/InfoButton';
@@ -13,6 +13,8 @@ import { faCircle, faCircleInfo } from '@fortawesome/free-solid-svg-icons';
 
 import PageHeader from '../components/PageHeader';
 import PageTitle from '../components/PageTitle';
+import SearchField from '../components/SearchField';
+import useInput from '../hooks/useInput';
 
 const Search = styled(SearchButton)`
   margin-right: 15px;
@@ -30,23 +32,32 @@ const Add = styled(AddButton)`
   z-index: 500;
 `;
 
+const PageDefaultHeader = styled(motion.div)`
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+`;
+
 const initialItems: IItem[] = [
   {
     id: nanoid(),
     text: 'My text is real and i wrote itsdfsdfsdfsdfsdfsdfsdfsdf sdfsd fsd',
     color: 'red',
   },
-  { id: nanoid(), text: 'My text is real and i wrote it', color: 'green' },
-  { id: nanoid(), text: 'My text is real and i wrote it' },
-  { id: nanoid(), text: 'My text is real and i wrote it' },
-  { id: nanoid(), text: 'My text is real and i wrote it' },
-  { id: nanoid(), text: 'My text is real and i wrote it' },
-  { id: nanoid(), text: 'My text is real and i wrote it' },
+  { id: nanoid(), text: '1My text is real and i wrote it', color: 'green' },
+  { id: nanoid(), text: '2My text is real and i wrote it' },
+  { id: nanoid(), text: '3My text is real and i wrote it' },
+  { id: nanoid(), text: '3My text is real and i wrote it' },
+  { id: nanoid(), text: '5My text is real and i wrote it' },
+  { id: nanoid(), text: '6My text is real and i wrote it' },
 ];
 
 export default function Home() {
   const [items, setItems] = useState(initialItems);
+  const [value, onChange, clearValue] = useValue();
+
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isSearchOpen, setIsSearchOpen] = useState(false);
 
   const removeItem = (id: string): void => {
     const index = items.findIndex(item => item.id === id);
@@ -58,19 +69,49 @@ export default function Home() {
     setItems(newItems);
   };
 
+  const filterItems = () => items.filter(item => item.text.startsWith(value));
+
   return (
     <>
       <PageHeader>
-        <PageTitle>Notes</PageTitle>
+        <AnimatePresence
+          initial={false}
 
-        <div>
-          <Search />
-          <InfoButton onClick={() => setIsModalOpen(true)} />
-        </div>
+        >
+          {isSearchOpen ? (
+            <motion.div
+              initial={{ opacity: 0, y: '-100%' }}
+              animate={{ opacity: 1, y: '0%' }}
+              exit={{ opacity: 0, y: '-100%', transition: { duration: 0.2 } }}
+            >
+              <SearchField
+                value={value}
+                onChange={onChange}
+                clearValue={() => {
+                  clearValue();
+                  setIsSearchOpen(false);
+                }}
+                autoFocus={true}
+              />
+            </motion.div>
+          ) : (
+            <PageDefaultHeader
+              initial={{ opacity: 0, y: '100%' }}
+              animate={{ opacity: 1, y: '0%' }}
+              exit={{ opacity: 0, y: '100%', transition: { duration: 0.2 } }}
+            >
+              <PageTitle>Notes</PageTitle>
+              <div>
+                <Search onClick={() => setIsSearchOpen(true)} />
+                <InfoButton onClick={() => setIsModalOpen(true)} />
+              </div>
+            </PageDefaultHeader>
+          )}
+        </AnimatePresence>
       </PageHeader>
       <Body>
         <NotesTrack setItems={setItems} removeItem={removeItem}>
-          {items}
+          {filterItems()}
         </NotesTrack>
       </Body>
       <Add />
@@ -79,11 +120,19 @@ export default function Home() {
           <Modal closeModal={() => setIsModalOpen(false)}>
             <div style={{ textAlign: 'center' }}>
               <FontAwesomeIcon icon={faCircleInfo} />
-              <p style={{marginTop: 20}}>Info page</p>
+              <p style={{ marginTop: 20 }}>Info page</p>
             </div>
           </Modal>
         )}
       </AnimatePresence>
     </>
   );
+}
+
+function useValue(): [string, (e: SyntheticEvent) => void, () => void] {
+  const [value, setValue, onChange] = useInput();
+
+  const clearValue = () => setValue('');
+
+  return [value, onChange, clearValue];
 }
