@@ -1,4 +1,9 @@
-import { motion, Reorder, useMotionValue } from 'framer-motion';
+import {
+  AnimatePresence,
+  motion,
+  Reorder,
+  useMotionValue,
+} from 'framer-motion';
 import styled, { DefaultTheme } from 'styled-components';
 import NoteItem, { IItem } from './NoteItem';
 
@@ -12,17 +17,22 @@ const Track = styled(motion.div)`
   padding: 20px;
 `;
 
-export default function NotesTrack({ children, setItems, removeItem }: INotesTrackProps) {
-
+export default function NotesTrack({
+  children,
+  setItems,
+  removeItem,
+}: INotesTrackProps) {
   return (
     <Track>
       <Reorder.Group axis={'y'} onReorder={setItems} values={children}>
-        {children &&
-          children.map(item => (
-            <Item key={item.id} removeItem={() => removeItem(item.id)}>
-              {item}
-            </Item>
-          ))}
+        <AnimatePresence initial={false}>
+          {children &&
+            children.map(item => (
+              <Item key={item.id} removeItem={() => removeItem(item.id)}>
+                {item}
+              </Item>
+            ))}
+        </AnimatePresence>
       </Reorder.Group>
     </Track>
   );
@@ -33,5 +43,3 @@ interface INotesTrackProps {
   setItems: (items: IItem[]) => void;
   removeItem: (id: string) => void;
 }
-
-

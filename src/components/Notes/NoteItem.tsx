@@ -1,11 +1,9 @@
 import {
-  DragControls,
   motion,
   PanInfo,
   Reorder,
   useAnimation,
   useDragControls,
-  useMotionValue,
 } from 'framer-motion';
 import React, { ComponentProps, useState } from 'react';
 import styled, { DefaultTheme } from 'styled-components';
@@ -31,7 +29,7 @@ const NoteTitle = styled.div`
   color: ${props => props.theme.primary};
   font-family: 'Nunito', sans-serif;
   margin-right: 20px;
-  line-height: 1.5em; 
+  line-height: 1.5em;
 `;
 
 export default function NoteItem({
@@ -76,23 +74,35 @@ export default function NoteItem({
       layout
       transition={{ type: 'spring', stiffness: 600, damping: 30 }}
     >
-      <NoteContainer
-        drag={'x'}
-        dragListener={false}
-        dragDirectionLock
-        dragControls={dragControls}
-        animate={controls}
-        onDragEnd={handleDrag}
-        color={children.color}
+      <motion.div
+        initial={{ x: '-100%' }}
+        animate={{
+          x: '0%',
+          transition: { type: 'spring', stiffness: 600, damping: 30 },
+        }}
+        exit={{
+          x: '-100%',
+          transition: { duration: 0.2 },
+        }}
       >
-        <NoteTitle>{children.text}</NoteTitle>
-        <motion.div
-          style={{ touchAction: 'none' }}
-          onPointerDown={e => dragControls.start(e)}
+        <NoteContainer
+          drag={'x'}
+          dragListener={false}
+          dragDirectionLock
+          dragControls={dragControls}
+          animate={controls}
+          onDragEnd={handleDrag}
+          color={children.color}
         >
-          <FontAwesomeIcon icon={faGrip} />
-        </motion.div>
-      </NoteContainer>
+          <NoteTitle>{children.text}</NoteTitle>
+          <motion.div
+            style={{ touchAction: 'none' }}
+            onPointerDown={e => dragControls.start(e)}
+          >
+            <FontAwesomeIcon icon={faGrip} />
+          </motion.div>
+        </NoteContainer>
+      </motion.div>
     </Reorder.Item>
   );
 }
