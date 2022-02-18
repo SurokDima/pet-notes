@@ -1,7 +1,9 @@
 import styled from 'styled-components';
 import { motion } from 'framer-motion';
+import { Link } from 'react-router-dom';
+import { ComponentProps } from 'react';
 
-const SquareButton = styled(motion.button).attrs({
+const Button = styled(motion.button).attrs({
   whileTap: {scale: 0.9},
 })`
   border: none;
@@ -13,6 +15,19 @@ const SquareButton = styled(motion.button).attrs({
   height: 50px;
   text-align: center;
   vertical-align: middle;
-`
+`;
 
-export default SquareButton;
+const Div = styled(Button).attrs({as: motion.div})`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+
+
+export default function SquareButton({to, ...rest}: ISquareButtonProps) {
+  return to ? (<Link to={to} ><Div  {...rest} /></Link>) : <Button {...rest} />;
+};
+
+type ISquareButtonProps = {
+  to?: string;
+} & ComponentProps<typeof Button>
