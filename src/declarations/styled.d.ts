@@ -15,6 +15,8 @@ declare module 'styled-components' {
     modalText: string;
     placeholder: string;
 
+    inputText: string;
+
     notesColors: {
       red: string;
       green: string;

@@ -13,6 +13,8 @@ export const dark: DefaultTheme = {
   modalText: '#CFCFCF',
   placeholder: '#9A9A9A',
 
+  inputText: '#CCC',
+
   notesColors: {
     red: '#FF9E9E',
     green: '#91F48F',
