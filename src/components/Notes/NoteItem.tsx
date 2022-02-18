@@ -86,25 +86,26 @@ export default function NoteItem({
           transition: { duration: 0.2 },
         }}
       >
-        <Link to={`/note/${children.id}`} style={{textDecoration: 'none'}}>
-          <NoteContainer
-            drag={'x'}
-            dragListener={false}
-            dragDirectionLock
-            dragControls={dragControls}
-            animate={controls}
-            onDragEnd={handleDrag}
-            color={children.color}
-          >
+        <NoteContainer
+          drag={'x'}
+          dragListener={false}
+          dragDirectionLock
+          dragControls={dragControls}
+          animate={controls}
+          onDragEnd={handleDrag}
+          color={children.color}
+        >
+          <Link to={`/note/${children.id}`} style={{ textDecoration: 'none' }}>
             <NoteTitle>{children.text}</NoteTitle>
-            <motion.div
-              style={{ touchAction: 'none' }}
-              onPointerDown={e => dragControls.start(e)}
-            >
-              <FontAwesomeIcon icon={faGrip} />
-            </motion.div>
-          </NoteContainer>
-        </Link>
+          </Link>
+
+          <motion.div
+            style={{ touchAction: 'none' }}
+            onPointerDown={e => dragControls.start(e)}
+          >
+            <FontAwesomeIcon icon={faGrip} />
+          </motion.div>
+        </NoteContainer>
       </motion.div>
     </Reorder.Item>
   );
