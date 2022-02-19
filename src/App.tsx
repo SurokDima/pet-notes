@@ -33,7 +33,15 @@ const Global = createGlobalStyle`
   html {
     background: ${props => props.theme.primary}
   }
-`
+  
+  body::-webkit-scrollbar {
+    width: 5px;
+  }
+
+  body::-webkit-scrollbar-thumb {
+    background-color: ${props => props.theme.secondary};
+  }
+`;
 
 function App() {
   return (
