@@ -31,6 +31,7 @@ const NoteTitle = styled.div`
   font-family: 'Nunito', sans-serif;
   margin-right: 20px;
   line-height: 1.5em;
+  overflow-wrap: anywhere;
 `;
 
 export default function NoteItem({

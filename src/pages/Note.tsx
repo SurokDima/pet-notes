@@ -21,6 +21,8 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   height: 100vh;
+  overflow: hidden;
+  padding-bottom: 20px;
 `;
 
 const Body = styled.textarea`
@@ -31,16 +33,25 @@ const Body = styled.textarea`
   resize: none;
   height: 100%;
   overflow-x: hidden;
+  overflow-y: auto;
 
   ${fontStyles};
   color: ${props => props.theme.white};
 
   &::placeholder {
-    color: ${props => props.placeholder};
+    color: ${props => props.theme.placeholder};
+  }
+
+  &::-webkit-scrollbar {
+    width: 5px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: ${props => props.theme.secondary};
   }
 `;
 
-const maxSize = 100;
+const maxSize = 500;
 export default function Note() {
   const navigate = useNavigate();
   const params = useParams<{ id: string }>();
