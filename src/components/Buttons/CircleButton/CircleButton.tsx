@@ -1,7 +1,8 @@
 import { motion } from 'framer-motion';
 import styled from 'styled-components';
+import Button from '../Button';
 
-const CircleButton = styled(motion.button).attrs({
+const CircleButton = styled(Button).attrs({
   whileTap: { scale: 0.9 },
 })`
   border: none;
@@ -11,8 +12,9 @@ const CircleButton = styled(motion.button).attrs({
   font-size: 3rem;
   width: 70px;
   height: 70px;
-  text-align: center;
-  vertical-align: middle;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   box-shadow: 0 5px 10px 0 rgba(0, 0, 0, 0.4), -5px 0 10px 0 rgba(0, 0, 0, 0.4);
 `;
 

@@ -2,10 +2,10 @@ import {
   AnimatePresence,
   motion,
   Reorder,
-  useMotionValue,
 } from 'framer-motion';
-import styled, { DefaultTheme } from 'styled-components';
-import NoteItem, { IItem } from './NoteItem';
+import styled from 'styled-components';
+import { IItem } from '../../types/types';
+import NoteItem from './NoteItem';
 
 const Item = styled(NoteItem)`
   margin: 25px 0;
@@ -21,6 +21,7 @@ export default function NotesTrack({
   children,
   setItems,
   removeItem,
+  isSearchMode
 }: INotesTrackProps) {
   return (
     <Track>
@@ -28,7 +29,7 @@ export default function NotesTrack({
         <AnimatePresence initial={false}>
           {children &&
             children.map(item => (
-              <Item key={item.id} removeItem={() => removeItem(item.id)}>
+              <Item key={item.id} isSearchMode={isSearchMode} removeItem={() => removeItem(item.id)}>
                 {item}
               </Item>
             ))}
@@ -40,6 +41,7 @@ export default function NotesTrack({
 
 interface INotesTrackProps {
   children: IItem[];
+  isSearchMode: boolean;
   setItems: (items: IItem[]) => void;
   removeItem: (id: string) => void;
 }

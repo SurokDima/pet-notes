@@ -1,20 +1,21 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { AnimatePresence, motion, useMotionValue } from 'framer-motion';
-import { nanoid } from 'nanoid';
-import { RefObject, SyntheticEvent, useState } from 'react';
+import { AnimatePresence, motion } from 'framer-motion';
+import { SyntheticEvent, useEffect, useState } from 'react';
 import styled from 'styled-components';
-import AddButton from '../components/Buttons/AddButton';
-import InfoButton from '../components/Buttons/InfoButton';
-import SearchButton from '../components/Buttons/SearchButton';
-import Modal from '../components/Modal';
-import NoteItem, { IItem } from '../components/Notes/NoteItem';
+import AddButton from '../components/Buttons/CircleButton/AddButton';
+import InfoButton from '../components/Buttons/SquareButton/InfoButton';
+import SearchButton from '../components/Buttons/SquareButton/SearchButton';
+import Modal from '../components/Modals/Modal';
 import NotesTrack from '../components/Notes/NotesTrack';
-import { faCircle, faCircleInfo } from '@fortawesome/free-solid-svg-icons';
+import { faCircleInfo } from '@fortawesome/free-solid-svg-icons';
+import { IItem } from '../types/types';
+import { nanoid } from 'nanoid';
 
 import PageHeader from '../components/PageHeader';
 import PageTitle from '../components/PageTitle';
 import SearchField from '../components/SearchField';
 import useInput from '../hooks/useInput';
+import { deleteItem, getItems, setItems as setItemsToStorage } from '../helpers/items';
 
 const Search = styled(SearchButton)`
   margin-right: 15px;
@@ -38,46 +39,23 @@ const PageDefaultHeader = styled(motion.div)`
   width: 100%;
 `;
 
-const initialItems: IItem[] = [
-  {
-    id: nanoid(),
-    text: 'My text is real and i wrote itsdfsdfsdfsdfsdfsdfsdfsdf sdfsd fsd',
-    color: 'red',
-  },
-  { id: nanoid(), text: '1My text is real and i wrote it', color: 'green' },
-  { id: nanoid(), text: '2My text is real and i wrote it' },
-  { id: nanoid(), text: '3My text is real and i wrote it' },
-  { id: nanoid(), text: '3My text is real and i wrote it' },
-  { id: nanoid(), text: '5My text is real and i wrote it' },
-  { id: nanoid(), text: '6My text is real and i wrote it' },
-];
-
 export default function Home() {
-  const [items, setItems] = useState(initialItems);
   const [value, onChange, clearValue] = useValue();
+  const [setItems, removeItem, filterItems] = useItems(value);
+
+  const onReorder = (items: IItem[]) => {
+    if(value !== '') return;
+    setItems(items);
+    setItemsToStorage(items);
+  }
 
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
 
-  const removeItem = (id: string): void => {
-    const index = items.findIndex(item => item.id === id);
-    if (index === undefined) return;
-
-    const newItems = [...items];
-    newItems.splice(index, 1);
-
-    setItems(newItems);
-  };
-
-  const filterItems = () => items.filter(item => item.text.startsWith(value));
-
   return (
     <>
       <PageHeader>
-        <AnimatePresence
-          initial={false}
-
-        >
+        <AnimatePresence initial={false}>
           {isSearchOpen ? (
             <motion.div
               initial={{ opacity: 0, y: '-100%' }}
@@ -110,11 +88,11 @@ export default function Home() {
         </AnimatePresence>
       </PageHeader>
       <Body>
-        <NotesTrack setItems={setItems} removeItem={removeItem}>
+        <NotesTrack setItems={onReorder} isSearchMode={isSearchOpen} removeItem={removeItem}>
           {filterItems()}
         </NotesTrack>
       </Body>
-      <Add />
+      <Add type={'link'} to={`/note/${nanoid()}`} />
       <AnimatePresence>
         {isModalOpen && (
           <Modal closeModal={() => setIsModalOpen(false)}>
@@ -135,4 +113,36 @@ function useValue(): [string, (e: SyntheticEvent) => void, () => void] {
   const clearValue = () => setValue('');
 
   return [value, onChange, clearValue];
+}
+
+function useItems(
+  value: string
+): [(arg: IItem[]) => void, (id: IItem['id']) => void, () => IItem[]] {
+  const [items, setItems] = useState(getItems());
+
+  useEffect(() => {
+    const listener = (event: StorageEvent) => {
+      if (event.storageArea === localStorage) {
+        setItems(getItems());
+      }
+    };
+
+    window.addEventListener('storage', listener);
+
+    return () => window.removeEventListener('storage', listener);
+  }, []);
+
+  const removeItem = (id: IItem['id']): void => {
+    const index = items.findIndex(item => item.id === id);
+    if (index === undefined) return;
+
+    const newItems = [...items];
+    newItems.splice(index, 1);
+
+    setItems(newItems);
+    deleteItem(id);
+  };
+  const filterItems = () => items.filter(item => item.text.startsWith(value));
+
+  return [setItems, removeItem, filterItems];
 }

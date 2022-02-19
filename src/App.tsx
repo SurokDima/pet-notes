@@ -5,6 +5,7 @@ import styled, { createGlobalStyle, ThemeProvider } from 'styled-components';
 import { dark } from './themes/themes';
 import { Route, Routes } from 'react-router-dom';
 import Home from './pages/Home';
+import Note from './pages/Note';
 
 const Background = styled.div`
   width: 100%;
@@ -42,6 +43,7 @@ function App() {
         <Container>
           <Layout>
             <Routes>
+              <Route path={'/note/:id'} element={<Note />} />
               <Route path={'/'} element={<Home />} />
             </Routes>
           </Layout>

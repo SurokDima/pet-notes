@@ -9,7 +9,7 @@ import React, { ComponentProps, useState } from 'react';
 import styled, { DefaultTheme } from 'styled-components';
 import { faGrip } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { IEvent } from '../../types/types';
+import { IEvent, IItem } from '../../types/types';
 import { Link } from 'react-router-dom';
 
 const NoteContainer = styled(motion.div)<INoteContainerProps>`
@@ -37,6 +37,7 @@ export default function NoteItem({
   children,
   removeItem,
   className,
+  isSearchMode
 }: INoteItemProps) {
   const dragControls = useDragControls();
 
@@ -60,6 +61,7 @@ export default function NoteItem({
 
   return (
     <Reorder.Item
+      drag={isSearchMode ? false : 'y'}
       dragListener={false}
       dragControls={dragControls}
       dragDirectionLock
@@ -118,11 +120,7 @@ interface INoteContainerProps {
 interface INoteItemProps {
   children: IItem;
   removeItem: () => void;
+  isSearchMode: boolean;
   className?: string;
 }
 
-export interface IItem {
-  id: string;
-  color?: keyof DefaultTheme['notesColors'];
-  text: string;
-}
