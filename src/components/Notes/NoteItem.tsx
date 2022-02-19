@@ -5,12 +5,12 @@ import {
   useAnimation,
   useDragControls,
 } from 'framer-motion';
-import React, { ComponentProps, useState } from 'react';
 import styled, { DefaultTheme } from 'styled-components';
-import { faGrip } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { IEvent, IItem } from '../../types/types';
+import { faGrip } from '@fortawesome/free-solid-svg-icons';
 import { Link } from 'react-router-dom';
+
+import { IEvent, IItem } from '../../types/types';
 
 const NoteContainer = styled(motion.div)<INoteContainerProps>`
   background: ${props => props.theme.notesColors[props.color || 'yellow']};

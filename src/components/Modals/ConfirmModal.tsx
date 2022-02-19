@@ -1,10 +1,12 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { ComponentProps } from 'react';
+import { faCircleInfo } from '@fortawesome/free-solid-svg-icons';
 import styled from 'styled-components';
+import { ComponentProps } from 'react';
+
+import SuccessButton from '../Buttons/RectangleButton/SuccessButton';
 import DangerButton from '../Buttons/RectangleButton/DangerButton';
 import Modal from './Modal';
-import { faCircleInfo } from '@fortawesome/free-solid-svg-icons';
-import SuccessButton from '../Buttons/RectangleButton/SuccessButton';
+
 
 const Container = styled.div`
   display: flex;

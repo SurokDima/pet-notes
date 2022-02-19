@@ -1,14 +1,11 @@
-import { nanoid } from 'nanoid';
 import { useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import styled, { css } from 'styled-components';
 import BackButton from '../components/Buttons/SquareButton/BackButton';
 import SaveButton from '../components/Buttons/SquareButton/SaveButton';
-import ViewButton from '../components/Buttons/SquareButton/ViewButton';
 import { ConfirmModal } from '../components/Modals/ConfirmModal';
-import Modal from '../components/Modals/Modal';
 import PageHeader from '../components/PageHeader';
-import { getItemById, getItems, saveItem } from '../helpers/items';
+import { getItemById, saveItem } from '../helpers/items';
 import useInput from '../hooks/useInput';
 
 const fontStyles = css`

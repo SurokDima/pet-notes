@@ -1,4 +1,3 @@
-import { nanoid } from 'nanoid';
 import { IItem } from '../types/types';
 
 /**

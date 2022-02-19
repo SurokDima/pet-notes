@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-import { ComponentProps, ReactNode, useEffect } from 'react';
+import { ReactNode, useEffect } from 'react';
 import styled from 'styled-components';
 
 const Container = styled(motion.div)`

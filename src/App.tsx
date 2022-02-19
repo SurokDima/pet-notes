@@ -1,5 +1,3 @@
-import React from 'react';
-import logo from './logo.svg';
 import './App.css';
 import styled, { createGlobalStyle, ThemeProvider } from 'styled-components';
 import { dark } from './themes/themes';
@@ -33,7 +31,7 @@ const Global = createGlobalStyle`
   html {
     background: ${props => props.theme.primary}
   }
-  
+
   body::-webkit-scrollbar {
     width: 5px;
   }

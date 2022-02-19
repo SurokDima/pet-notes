@@ -1,5 +1,5 @@
-import { faXmark } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faXmark } from '@fortawesome/free-solid-svg-icons';
 import { motion } from 'framer-motion';
 import { ComponentProps } from 'react';
 import styled from 'styled-components';

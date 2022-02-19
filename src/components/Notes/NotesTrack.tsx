@@ -4,6 +4,7 @@ import {
   Reorder,
 } from 'framer-motion';
 import styled from 'styled-components';
+
 import { IItem } from '../../types/types';
 import NoteItem from './NoteItem';
 

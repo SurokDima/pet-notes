@@ -1,5 +1,3 @@
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faXmark } from '@fortawesome/free-solid-svg-icons';
 import styled, { css } from 'styled-components';
 import CancelIcon from './CancelIcon';
 import { SyntheticEvent, useEffect, useRef } from 'react';

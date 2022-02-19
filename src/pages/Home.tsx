@@ -1,21 +1,25 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCircleInfo } from '@fortawesome/free-solid-svg-icons';
 import { AnimatePresence, motion } from 'framer-motion';
 import { SyntheticEvent, useEffect, useState } from 'react';
 import styled from 'styled-components';
-import AddButton from '../components/Buttons/CircleButton/AddButton';
-import InfoButton from '../components/Buttons/SquareButton/InfoButton';
-import SearchButton from '../components/Buttons/SquareButton/SearchButton';
-import Modal from '../components/Modals/Modal';
-import NotesTrack from '../components/Notes/NotesTrack';
-import { faCircleInfo } from '@fortawesome/free-solid-svg-icons';
-import { IItem } from '../types/types';
 import { nanoid } from 'nanoid';
 
 import PageHeader from '../components/PageHeader';
 import PageTitle from '../components/PageTitle';
 import SearchField from '../components/SearchField';
 import useInput from '../hooks/useInput';
-import { deleteItem, getItems, setItems as setItemsToStorage } from '../helpers/items';
+import {
+  deleteItem,
+  getItems,
+  setItems as setItemsToStorage,
+} from '../helpers/items';
+import { IItem } from '../types/types';
+import AddButton from '../components/Buttons/CircleButton/AddButton';
+import InfoButton from '../components/Buttons/SquareButton/InfoButton';
+import SearchButton from '../components/Buttons/SquareButton/SearchButton';
+import Modal from '../components/Modals/Modal';
+import NotesTrack from '../components/Notes/NotesTrack';
 
 const Search = styled(SearchButton)`
   margin-right: 15px;
@@ -44,10 +48,10 @@ export default function Home() {
   const [setItems, removeItem, filterItems] = useItems(value);
 
   const onReorder = (items: IItem[]) => {
-    if(value !== '') return;
+    if (value !== '') return;
     setItems(items);
     setItemsToStorage(items);
-  }
+  };
 
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
@@ -88,7 +92,11 @@ export default function Home() {
         </AnimatePresence>
       </PageHeader>
       <Body>
-        <NotesTrack setItems={onReorder} isSearchMode={isSearchOpen} removeItem={removeItem}>
+        <NotesTrack
+          setItems={onReorder}
+          isSearchMode={isSearchOpen}
+          removeItem={removeItem}
+        >
           {filterItems()}
         </NotesTrack>
       </Body>
@@ -142,7 +150,13 @@ function useItems(
     setItems(newItems);
     deleteItem(id);
   };
-  const filterItems = () => items.filter(item => item.text.startsWith(value));
+  const filterItems = () =>
+    items
+      .filter(item => item.text.startsWith(value))
+      .map(item => {
+        if (item.text.length < 50) return item;
+        return { ...item, text: item.text.slice(0, 50) + '...' };
+      });
 
   return [setItems, removeItem, filterItems];
 }
