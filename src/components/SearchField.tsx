@@ -26,6 +26,10 @@ const Field = styled.input.attrs({ type: 'text' })`
   &::placeholder {
     ${textStyles};
   }
+
+  @media (max-width: 400px) {
+    padding: 0 40px 0 20px;
+  }
 `;
 
 const CancelContainer = styled.div`
@@ -33,6 +37,10 @@ const CancelContainer = styled.div`
   top: 50%;
   right: 25px;
   transform: translateY(-50%);
+
+  @media (max-width: 400px) {
+    right: 15px;
+  }
 `;
 
 export default function SearchField({

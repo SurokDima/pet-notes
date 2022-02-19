@@ -1,4 +1,3 @@
-import './App.css';
 import styled, { createGlobalStyle, ThemeProvider } from 'styled-components';
 import { dark } from './themes/themes';
 import { Route, Routes } from 'react-router-dom';
@@ -25,6 +24,10 @@ const Container = styled.div`
   height: 100%;
   padding: 0 25px;
   margin: 0 auto;
+
+  @media (max-width: 400px) {
+    padding: 0 10px;
+  }
 `;
 
 const Global = createGlobalStyle`
